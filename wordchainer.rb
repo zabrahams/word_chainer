@@ -13,20 +13,20 @@ class WordChainer
     @current_words, @all_seen_words = [source], [source]
 
     until @current_words.empty?
-      new_current_words = []
+      explore_current_words
+    end
+  end
 
-      @current_words.each do |current_word|
-        new_words = adjacent_words(current_word)
-        new_words.each do |word|
-          unless @all_seen_words.include?(word)
-            new_current_words << word
-            @all_seen_words << word
-          end
-        end
+  def explore_current_words
+    current_word = @current_words.shift
+    new_words = adjacent_words(current_word)
+
+    new_words.each do |word|
+      unless @all_seen_words.include?(word)
+        @current_words << word
+        @all_seen_words << word
+        puts word
       end
-
-      new_current_words.each { |word| puts word }
-      @current_words = new_current_words
     end
   end
 
