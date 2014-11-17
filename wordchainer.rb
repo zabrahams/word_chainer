@@ -15,7 +15,7 @@ class WordChainer
     @current_words = [source]
     @all_seen_words = { source => nil }
 
-    until @current_words.empty?
+    until @all_seen_words.has_key?(target) || @current_words.empty?
       explore_current_words
     end
 

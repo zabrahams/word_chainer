@@ -1,0 +1,1 @@
+Wordchainer builds a chain of words between two words of equal length. Each word in the chain differs from the previous word by excatly one character. Wordchainer's chains are guaranteed to be as short as possible!
