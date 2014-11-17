@@ -10,7 +10,8 @@ class WordChainer
   end
 
   def run(source, target)
-    @current_words, @all_seen_words = [source], [source]
+    @current_words = [source]
+    @all_seen_words = { source => nil }
 
     until @current_words.empty?
       explore_current_words
@@ -21,11 +22,11 @@ class WordChainer
     current_word = @current_words.shift
     new_words = adjacent_words(current_word)
 
-    new_words.each do |word|
-      unless @all_seen_words.include?(word)
-        @current_words << word
-        @all_seen_words << word
-        puts word
+    new_words.each do |new_word|
+      unless @all_seen_words.has_key?(new_word)
+        @current_words << new_word
+        @all_seen_words[new_word] = current_word
+        puts "#{@all_seen_words[new_word]} => #{new_word}"
       end
     end
   end
@@ -42,6 +43,7 @@ class WordChainer
         adjacent_words << poss_word if @dictionary.include?(poss_word)
       end
     end
+
     adjacent_words
   end
 
