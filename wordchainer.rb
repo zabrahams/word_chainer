@@ -16,6 +16,10 @@ class WordChainer
     until @current_words.empty?
       explore_current_words
     end
+
+    path = build_path(target)
+    print_path(path)
+
   end
 
   def explore_current_words
@@ -26,7 +30,6 @@ class WordChainer
       unless @all_seen_words.has_key?(new_word)
         @current_words << new_word
         @all_seen_words[new_word] = current_word
-        puts "#{@all_seen_words[new_word]} => #{new_word}"
       end
     end
   end
@@ -47,5 +50,25 @@ class WordChainer
     adjacent_words
   end
 
+  def build_path(target)
+    path = []
+    current_word = target
+
+    until current_word == nil
+      path.unshift(current_word)
+      current_word = @all_seen_words[current_word]
+    end
+
+    path
+  end
+
+
+  def print_path(path)
+    puts "No path found!" if path.count == 1
+
+    path.take(path.length).each do |word|
+      puts "#{@all_seen_words[word]} => #{word}"
+    end
+  end
 
 end
