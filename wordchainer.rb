@@ -4,6 +4,8 @@ class WordChainer
 
   LETTERS = ("a".."z").to_a
 
+  attr_reader :dictionary
+
   def initialize(dictionary_file_name)
     @dictionary = File.readlines(dictionary_file_name).map(&:chomp)
     @dictionary = @dictionary.to_set
@@ -66,9 +68,32 @@ class WordChainer
   def print_path(path)
     puts "No path found!" if path.count == 1
 
-    path.take(path.length).each do |word|
+    path.drop(1).each do |word|
       puts "#{@all_seen_words[word]} => #{word}"
     end
   end
 
+end
+
+def get_valid_word(dictionary)
+  begin
+    word = gets.chomp.downcase
+    raise "Input not in dictionary" unless dictionary.include?(word)
+  rescue
+    puts "Input not found in dictionary. Please input a real word."
+    retry
+  end
+  word
+end
+
+if $PROGRAM_NAME == __FILE__
+  word_chainer = WordChainer.new("dictionary.txt")
+  puts "Welcome to Word Chainer"
+
+  puts "Please input a source word."
+  source = get_valid_word(word_chainer.dictionary)
+  puts "Please input a target word."
+  target = get_valid_word(word_chainer.dictionary)
+
+  word_chainer.run(source, target)
 end
